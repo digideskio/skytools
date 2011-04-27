@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+# Automatically added by dh_installinit
+if [ -x "/etc/init.d/skytools3" ]; then
+	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+		invoke-rc.d skytools3 stop || exit $?
+	else
+		/etc/init.d/skytools3 stop || exit $?
+	fi
+fi
+# End automatically added section
+# Automatically added by dh_pysupport
+if which update-python-modules >/dev/null 2>&1; then
+	update-python-modules -c  skytools3.public || exit $?
+fi
+# End automatically added section
+
+case $1 in
+    configure)
+	for f in londiste scriptmgr queue_mover queue_splitter; do
+	    update-alternatives --remove $f /usr/bin/${f}3 || exit 1 ;
+	done;;
+esac
+
+#DEBHELPER#
